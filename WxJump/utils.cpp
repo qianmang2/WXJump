@@ -2,12 +2,14 @@
 #include "QDebug"
 #include "cmath"
 #include "opencv2/opencv.hpp"
+#include "iostream"
+
 using namespace cv;
 using namespace std;
 
 
 Utils::Utils() {
-	
+
 }
 //执行命令
 void Utils::exeCmd(QString cmd) {
@@ -23,10 +25,9 @@ void Utils::cut(Mat &inputImage, Mat &outputImage, Range  &startRange, Range end
 }
 
 
-void Utils::drawCharater(Mat &inputImage, Point point) {
-	qDebug() << point.x << " " << point.y;
+void Utils::drawCharater(Mat &inputImage, Point point, Scalar color) {
 	//画圆形
-	circle(inputImage, point, 2, Scalar(0, 0, 255), 2, LINE_AA);
+	circle(inputImage, point, 2, color, 2, LINE_AA);
 }
 
 //长按跳跃
@@ -43,27 +44,140 @@ void Utils::longClick(int time) {
 	exeCmd(cmd);
 }
 
+//获取图像边缘
 void Utils::edge(Mat inputImage, Mat &outputImage) {
 	Mat temp;
-	GaussianBlur(inputImage, temp, Size(3, 3), 1);
+	
+	//imshow("temp1", temp);
+	cvtColor(inputImage, temp, CV_BGR2HSV_FULL);
+	for (int row = 0; row < temp.rows; row++) {
+		for (int col = 0; col < temp.cols; col++) {
+			int h = temp.at<Vec3b>(row, col)[0];
+			int s = temp.at<Vec3b>(row, col)[1];
+			int v = temp.at<Vec3b>(row, col)[2];
+
+				//qDebug() << "h=" << h << "s=" << s << "v=" << v;
+			
+	/*			if (v >= 255) {
+				temp.at<Vec3b>(row, col)[0] = 0;
+				temp.at<Vec3b>(row, col)[1] = 0;
+				temp.at<Vec3b>(row, col)[2] = 0;
+			}*/
+
+			if ( h >= 36 && h <= 240) {
+				if (10 <= s && s <= 127) {
+					if ( (232 <= v && v <= 255) || 165 <= v && v <= 178) {
+						temp.at<Vec3b>(row, col)[0] = 0;
+						temp.at<Vec3b>(row, col)[1] = 0;
+						temp.at<Vec3b>(row, col)[2] = 0;
+					}
+				}
+			}
+
+
+
+
+		}
+	}
+	Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
+	morphologyEx(temp, temp, CV_MOP_OPEN, kernel);
+
+	imshow("temp1" ,temp);
+	medianBlur(temp, temp, 5);
 	Canny(temp, outputImage, 58, 50);
+	imshow("temp2", outputImage);
+
 }
 
-//查找最顶端的点 offset为竖直方向上的矫正
-void Utils::findTopPoint(Mat &inputImage, Point &potion, int minThreshold, int offset) {
+//判断目标位置是否在左边
+bool Utils::isLeftDst(int characterPointX, int dstPointX) {
+	return dstPointX < characterPointX ? true : false;
+}
+
+
+//查找最顶端的点
+void Utils::findTopPoint(Mat &inputImage, Point &potion, Rect subtracArea, uchar minThreshold) {
 	Mat temp;
 	edge(inputImage, temp);
-	for (unsigned int row = temp.rows * 0.25; row < temp.rows; row++ ) {
-		for (unsigned int col = 5; col < temp.cols - 5; col++ ) {
-			int pix = temp.at<uchar>(row,col);
+
+	qDebug() << subtracArea.br().x << " -------------- " << temp.cols;
+	for (unsigned int row = temp.rows * 0.25; row < subtracArea.br().y; row++) {
+		//subtracArea.tl().x 为小人的左上方的x坐标   subtracArea.br().x
+		for (unsigned int col = 10; col < temp.cols - 10;) {
+
+			uchar pix = temp.at<uchar>(row, col);
 			if (pix > minThreshold) {
 				potion.x = col;
-				potion.y = row + offset;
-				qDebug() << potion.x << "--" << potion.y;
-				drawCharater(inputImage, potion);
+				potion.y = row;
+				
 				return;
 			}
+
+			//不查找小人位值在竖直方向上的最高点
+			if (col > subtracArea.tl().x - 10 && col < subtracArea.br().x + 10) {
+				col += subtracArea.width;
+			}
+			col++;
 		}
+	}
+}
+
+//参数2下一目标位置的另一个边缘坐标点， 参数三：小人的坐标点， 参数四： 目标位置的顶点
+void Utils::findAnotherPoint(Mat &inputImage, Point &potion, Point characterBottomCenter, Point dstTopPoint, uchar minThreshold) {
+
+	Mat edgeImage;
+	edge(inputImage, edgeImage);
+
+	if (isLeftDst(characterBottomCenter.x, dstTopPoint.x)) { //如果下一目标位值在小人左边
+
+		//取2是因为最左边的点不可能小于2，提高效率
+		for (int col = 2; col < dstTopPoint.x; col++) { //只需遍历10 到最高点的x点坐标范围内
+
+			for (int row = dstTopPoint.y + 5; row < characterBottomCenter.y - 5; row++) { //只需遍历 最高点的y坐标到 小人的最低坐标
+
+				uchar pix = edgeImage.at<uchar>(row, col);
+				if (pix > minThreshold) {
+					potion.x = col;
+					potion.y = row;
+					return;
+				}
+			}
+		}
+	}
+	else {  //如果下一目标位值在小人右边
+		//取2是因为最左边的点不可能小于2，提高效率
+		for (int col = inputImage.cols -5 ; col > dstTopPoint.x + 5; col--) { //只需遍历10 到最高点的x点坐标范围内
+
+			for (int row = dstTopPoint.y + 5; row < characterBottomCenter.y - 5; row++) { //只需遍历 最高点的y坐标到 小人的最低坐标
+				
+				uchar pix = edgeImage.at<uchar>(row, col);
+				if (pix > minThreshold) {
+					potion.x = col;
+					potion.y = row;
+					qDebug() << "next_dst_in_right=" << potion.x << "--" << potion.y;
+					drawCharater(inputImage, potion, Scalar(0, 255, 0));
+					return;
+				}
+			}
+		}
+
+		//cvtColor(outputImage, outputImage, CV_HSV2BGR);
+		//Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
+		//morphologyEx(outputImage, outputImage, CV_MOP_CLOSE, kernel, Point(-1, -1));
+		//medianBlur(outputImage, outputImage, 5);
+		//Canny(outputImage, cannyImage, 34, 162);
+		//vector<vector<Point>> contours;
+		//vector<Vec4i> hierarchy;
+		//findContours(cannyImage, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point());
+
+		//Mat temp = Mat::zeros(inputImage.size(), CV_8UC1);
+
+		//RNG rng = RNG(222);
+		//for (int i = 0; i < contours.size(); i++) {
+		//	Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+		//	drawContours(temp, contours, i, Scalar(255, 255, 255), 2, LINE_AA);
+		//}
+		//erode(temp, temp, kernel);
 	}
 }
 

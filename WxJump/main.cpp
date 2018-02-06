@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	WxJump w;
-	w.setWindowTitle(QString::fromLocal8Bit("微信跳一跳 By:钱漭"));
+	w.setWindowTitle(QString::fromLocal8Bit("微信跳一跳辅助 By:钱漭"));
 	w.show();
 	return a.exec();
 }

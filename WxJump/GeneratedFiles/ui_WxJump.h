@@ -35,7 +35,7 @@ public:
     {
         if (WxJumpClass->objectName().isEmpty())
             WxJumpClass->setObjectName(QStringLiteral("WxJumpClass"));
-        WxJumpClass->resize(348, 482);
+        WxJumpClass->resize(348, 539);
         verticalLayout = new QVBoxLayout(WxJumpClass);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -73,8 +73,8 @@ public:
     void retranslateUi(QWidget *WxJumpClass)
     {
         WxJumpClass->setWindowTitle(QApplication::translate("WxJumpClass", "WxJump", nullptr));
-        autoJump->setText(QApplication::translate("WxJumpClass", "\350\207\252\345\212\250", nullptr));
-        manualJump->setText(QApplication::translate("WxJumpClass", "\346\211\213\345\212\250", nullptr));
+        autoJump->setText(QApplication::translate("WxJumpClass", "\350\267\263\344\270\200\344\270\213", nullptr));
+        manualJump->setText(QApplication::translate("WxJumpClass", "\351\207\215\346\226\260\350\216\267\345\217\226\345\233\276\347\211\207", nullptr));
         screenImg->setText(QApplication::translate("WxJumpClass", "\350\257\267\347\250\215\345\200\231...", nullptr));
     } // retranslateUi
 

@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ScreencapImage_t {
-    QByteArrayData data[6];
-    char stringdata0[57];
+    QByteArrayData data[5];
+    char stringdata0[53];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,13 +34,12 @@ static const qt_meta_stringdata_ScreencapImage_t qt_meta_stringdata_ScreencapIma
 QT_MOC_LITERAL(0, 0, 14), // "ScreencapImage"
 QT_MOC_LITERAL(1, 15, 15), // "screencapfinish"
 QT_MOC_LITERAL(2, 31, 0), // ""
-QT_MOC_LITERAL(3, 32, 13), // "picInitFinish"
-QT_MOC_LITERAL(4, 46, 4), // "Mat&"
-QT_MOC_LITERAL(5, 51, 5) // "image"
+QT_MOC_LITERAL(3, 32, 10), // "jumpFinish"
+QT_MOC_LITERAL(4, 43, 9) // "showImage"
 
     },
     "ScreencapImage\0screencapfinish\0\0"
-    "picInitFinish\0Mat&\0image"
+    "jumpFinish\0showImage"
 };
 #undef QT_MOC_LITERAL
 
@@ -50,7 +49,7 @@ static const uint qt_meta_data_ScreencapImage[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,12 +57,18 @@ static const uint qt_meta_data_ScreencapImage[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   24,    2, 0x06 /* Public */,
-       3,    1,   25,    2, 0x06 /* Public */,
+       1,    0,   29,    2, 0x06 /* Public */,
+       3,    0,   30,    2, 0x06 /* Public */,
+
+ // slots: name, argc, parameters, tag, flags
+       4,    0,   31,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void,
+
+ // slots: parameters
+    QMetaType::Void,
 
        0        // eod
 };
@@ -75,7 +80,8 @@ void ScreencapImage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->screencapfinish(); break;
-        case 1: _t->picInitFinish((*reinterpret_cast< Mat(*)>(_a[1]))); break;
+        case 1: _t->jumpFinish(); break;
+        case 2: _t->showImage(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -88,17 +94,18 @@ void ScreencapImage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
             }
         }
         {
-            typedef void (ScreencapImage::*_t)(Mat & );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&ScreencapImage::picInitFinish)) {
+            typedef void (ScreencapImage::*_t)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&ScreencapImage::jumpFinish)) {
                 *result = 1;
                 return;
             }
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObject ScreencapImage::staticMetaObject = {
-    { &QThread::staticMetaObject, qt_meta_stringdata_ScreencapImage.data,
+    { &QObject::staticMetaObject, qt_meta_stringdata_ScreencapImage.data,
       qt_meta_data_ScreencapImage,  qt_static_metacall, nullptr, nullptr}
 };
 
@@ -113,22 +120,22 @@ void *ScreencapImage::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_ScreencapImage.stringdata0))
         return static_cast<void*>(this);
-    return QThread::qt_metacast(_clname);
+    return QObject::qt_metacast(_clname);
 }
 
 int ScreencapImage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QThread::qt_metacall(_c, _id, _a);
+    _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
@@ -140,10 +147,9 @@ void ScreencapImage::screencapfinish()
 }
 
 // SIGNAL 1
-void ScreencapImage::picInitFinish(Mat & _t1)
+void ScreencapImage::jumpFinish()
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 1, _a);
+    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

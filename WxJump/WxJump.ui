@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>348</width>
-    <height>482</height>
+    <height>539</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,14 +19,14 @@
      <item row="1" column="0">
       <widget class="QPushButton" name="autoJump">
        <property name="text">
-        <string>自动</string>
+        <string>跳一下</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="manualJump">
        <property name="text">
-        <string>手动</string>
+        <string>重新获取图片</string>
        </property>
       </widget>
      </item>
