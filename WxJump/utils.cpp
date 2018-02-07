@@ -48,21 +48,12 @@ void Utils::longClick(int time) {
 void Utils::edge(Mat inputImage, Mat &outputImage) {
 	Mat temp;
 	
-	//imshow("temp1", temp);
 	cvtColor(inputImage, temp, CV_BGR2HSV_FULL);
 	for (int row = 0; row < temp.rows; row++) {
 		for (int col = 0; col < temp.cols; col++) {
 			int h = temp.at<Vec3b>(row, col)[0];
 			int s = temp.at<Vec3b>(row, col)[1];
 			int v = temp.at<Vec3b>(row, col)[2];
-
-				//qDebug() << "h=" << h << "s=" << s << "v=" << v;
-			
-	/*			if (v >= 255) {
-				temp.at<Vec3b>(row, col)[0] = 0;
-				temp.at<Vec3b>(row, col)[1] = 0;
-				temp.at<Vec3b>(row, col)[2] = 0;
-			}*/
 
 			if ( h >= 36 && h <= 240) {
 				if (10 <= s && s <= 127) {
@@ -73,19 +64,13 @@ void Utils::edge(Mat inputImage, Mat &outputImage) {
 					}
 				}
 			}
-
-
-
-
 		}
 	}
 	Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 	morphologyEx(temp, temp, CV_MOP_OPEN, kernel);
 
-	imshow("temp1" ,temp);
 	medianBlur(temp, temp, 5);
 	Canny(temp, outputImage, 58, 50);
-	imshow("temp2", outputImage);
 
 }
 
@@ -181,10 +166,10 @@ void Utils::findAnotherPoint(Mat &inputImage, Point &potion, Point characterBott
 	}
 }
 
-unsigned int Utils::distance(Point p1, Point p2) {
+float Utils::distance(Point p1, Point p2) {
 	float dX = (p1.x - p2.x) * (p1.x - p2.x);
 	float dY = (p1.y - p2.y) *(p1.y - p2.y);
-	return (int)sqrt(dX + dY);
+	return sqrt(dX + dY);
 }
 
 //将Mat显示到QLabel中

@@ -34,7 +34,7 @@ void ScreencapImage::showImage() {
 
 //ÌøÔ¾
 void ScreencapImage::jump() {
-	int distance = utils->distance(characterBottomCenter, nextCenterPoint);
+	float distance = utils->distance(characterBottomCenter, nextCenterPoint);
 	qDebug() << "distance" << distance;
 	utils->longClick(distance * 2.02);
 	emit jumpFinish();

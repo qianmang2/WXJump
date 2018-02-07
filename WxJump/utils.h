@@ -26,7 +26,7 @@ public:
 	void findAnotherPoint(Mat &inputImage, Point &potion, Point characterTopPoint, Point dstTopPoint, uchar minThreshold = 127);
 
 	bool isLeftDst(int characterPointX, int dstPointX); //判断目标位置是否在左边
-	unsigned int distance(Point p1, Point p2);
+	float distance(Point p1, Point p2);
 
 	void longClick(int time);
 

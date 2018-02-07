@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
+    <width>665</width>
     <height>539</height>
    </rect>
   </property>
@@ -16,20 +16,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QPushButton" name="autoJump">
-       <property name="text">
-        <string>跳一下</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="manualJump">
-       <property name="text">
-        <string>重新获取图片</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="screenImg">
        <property name="minimumSize">
@@ -49,6 +35,30 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="autoJump">
+       <property name="text">
+        <string>跳一下</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="manualJump">
+       <property name="text">
+        <string>重新获取图片</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPlainTextEdit" name="plainTextEdit">
+       <property name="plainText">
+        <string>使用说明:
+    图中的小红点分别表示棋子位值和下一目标位值.如果下一目标位值不准确，可以通过点击 重新获取图片 按钮尝试解决。
+
+</string>
        </property>
       </widget>
      </item>
