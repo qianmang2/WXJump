@@ -3,4 +3,4 @@
 
 # 效果图：
 ![Image text](https://github.com/qianmang2/WXJump/raw/master/image/Screenshot.png)
-![Image text](https://github.com/qianmang2/WXJump/raw/master/image/screeencap.png)
+![Image text](https://github.com/qianmang2/WXJump/raw/master/image/screencap.png)
