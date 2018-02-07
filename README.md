@@ -1,6 +1,6 @@
-# WxJump
+## WxJump
 微信跳一跳android端外挂。基于vs2017 + QT + Opencv，所以请自行配置开发环境。
-# 原理
+## 原理
 1.用android adb命令进行截图存储到手机，然后用adb命令导出图像到程序目录。</br>
 2.使用opencv提供的 matchtemplate函数 先找出棋子位置位值，然后计算棋子底部的中心点。</br>
 3.使用opencv提供的cvtColor canny等函数处理后 获取图像的边缘（此时也就时二值图）。</br>
@@ -10,7 +10,7 @@
 7.然后最高点的x值和另一个点的y值就形成了下一个目标点了。</br>
 8.根据两点算得两点之间的距离乘以一个系数（可以慢慢尝试这个系数）就可以获得按压时间了。</br>
 
-# adb命令
+## adb命令
 adb截图：         adb shell /system/bin/screencap -p /sdcard/screenshot.png"</br>
 adb导出图像命令：  adb pull /sdcard/screenshot.png ./gamescreenshot.png</br>
 adb模拟按压命令:   adb shell input swipe 200 300 400 500 2000  (200：第一个点的x坐标 300：第一个点的y坐标   400：第二个点的x坐标  500：第二个点的y坐标 2000：按压时长单位毫秒)</br>
