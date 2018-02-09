@@ -18,5 +18,5 @@ adb模拟按压命令:   `adb shell input swipe 200 300 400 500 2000`  (200：�
 
 
 ## 效果图：
-![Image text](https://github.com/qianmang2/WXJump/raw/master/image/clientImage.png)
-![Image text](https://github.com/qianmang2/WXJump/raw/master/image/screencap.png)
+![外挂客户端截图](https://github.com/qianmang2/WXJump/raw/master/image/clientImage.png)
+![手机端截图](https://github.com/qianmang2/WXJump/raw/master/image/screencap.png)
