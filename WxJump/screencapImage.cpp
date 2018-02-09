@@ -1,9 +1,12 @@
 #include "screencapImage.h"
 #include "QThread"
 #include "QDebug"
-ScreencapImage::ScreencapImage(QLabel *qLabel) {
+#include "QPushButton"
+
+ScreencapImage::ScreencapImage(QLabel *imageLabel, QPushButton *jumpOne) {
 	utils = new Utils();
-	imageLabel = qLabel;
+	this->imageLabel = imageLabel;
+	this->jumpOne = jumpOne;
 
 	connect(this, &ScreencapImage::screencapfinish, [=]() {
 		inputImage = imread("gamescreenshot.png");
@@ -20,6 +23,9 @@ ScreencapImage::ScreencapImage(QLabel *qLabel) {
 		utils->drawCharater(inputImage, nextCenterPoint);
 		isLeftDst = utils->isLeftDst(characterBottomCenter.x, topPosition.x);
 		utils->displayResult(imageLabel, inputImage);
+
+		emit showImageFinish();
+
 	});
 }
 

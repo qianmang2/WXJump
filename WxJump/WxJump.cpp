@@ -12,18 +12,23 @@ WxJump::WxJump(QWidget *parent)
 	btnAutoJump = ui.autoJump;
 	btnManualJump = ui.manualJump;
 
-	screen = new ScreencapImage(screenImg);
+	screen = new ScreencapImage(screenImg, btnAutoJump);
 	showImage();
-	connect(btnAutoJump, &QPushButton::released, this, &WxJump::JumpOne);
-	connect(btnManualJump, &QPushButton::released, this, &WxJump::showImage);
 
-	connect(screen, &ScreencapImage::jumpFinish, this, &WxJump::showImage);
-	qDebug() << "Wx_currentThreadId1:" << QThread::currentThreadId();
+	connect(btnAutoJump, &QPushButton::released, this, &WxJump::JumpOne); //跳一下
+	connect(btnManualJump, &QPushButton::released, this, &WxJump::showImage); //重新获取图片并显示
+	connect(screen, &ScreencapImage::jumpFinish, this, &WxJump::showImage); //跳跃完后显示图片
+	connect(screen, &ScreencapImage::showImageFinish, this, [&]() {
+		btnAutoJump->setEnabled(true);
+	});
+
+	qDebug() << "WxJump:currentThreadId:" << QThread::currentThreadId();
 }
 
 void WxJump::JumpOne() {
+	btnAutoJump->setEnabled(false);
 	screen->jump();
-	qDebug() << "Wx_currentThreadId2:" << QThread::currentThreadId();
+//	qDebug() << "Wx_currentThreadId2:" << QThread::currentThreadId();
 }
 
 void WxJump::showImage() {
@@ -32,5 +37,5 @@ void WxJump::showImage() {
 	screen->moveToThread(thread_);
 	thread_->start();
 	connect(thread_, &QThread::started, screen, &ScreencapImage::showImage);
-
+	
 }

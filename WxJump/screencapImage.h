@@ -2,18 +2,22 @@
 #include "QObject"
 #include "QLabel"
 #include "QProcess"
+#include "QPushButton"
 #include "utils.h"
+
 class ScreencapImage :public QObject{
 
 	Q_OBJECT
 public:
-	ScreencapImage(QLabel *qLabel);
+	ScreencapImage(QLabel *qLabel, QPushButton *jumpOne);
 	~ScreencapImage();
 	void initcharacterLocation();
 	void jump();
 
 signals:
-	void screencapfinish();
+	void screencapfinish(); //截屏完毕
+signals:
+	void showImageFinish(); //显示图片完毕
 signals:
 	void jumpFinish(); //跳完后发送一个信号
 
@@ -32,5 +36,6 @@ private:
 	Point nextCenterPoint; //下一位置的中心点
 	bool isLeftDst; //目标位置是否在小人的左边
 	QLabel *imageLabel;
+	QPushButton *jumpOne;
 
 };
