@@ -2,8 +2,8 @@
 > #### 开发用户
 >>微信跳一跳android端外挂。基于vs2017 + QT + Opencv，所以请自行配置开发环境。
 > #### 普通用户
->>1.只需下载 [戳我下载](https://github.com/qianmang2/WXJump/raw/master/普通用户只需下载我.rar)
->>2.用USB线连接手机与电脑。
+>>1.只需下载 [戳我下载](https://github.com/qianmang2/WXJump/raw/master/普通用户只需下载我.rar)</br>
+>>2.用USB线连接手机与电脑。</br>
 >>3.在手机设置->关于手机->版本号 处连续点击7次显示出 开发者模式 选项，然后进入 开发者模式 里打开USB调试开关
 
 
