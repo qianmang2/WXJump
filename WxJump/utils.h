@@ -13,7 +13,7 @@ public:
 	Utils();
 	~Utils();
 	void exeCmd(QString CMD);
-	void drawCharater(Mat &inputImage, Point point, Scalar color = Scalar(0,0,255));
+	void drawPoint(Mat &inputImage, Point point, Scalar color = Scalar(0,0,255));
 	void displayResult(QLabel *resultImageLabel, Mat &image);
 	void edge(Mat inputImage, Mat &outputImage);
 

@@ -12,15 +12,14 @@ ScreencapImage::ScreencapImage(QLabel *imageLabel, QPushButton *jumpOne) {
 		inputImage = imread("gamescreenshot.png");
 		character = imread("character.png"); //获取小人
 		initcharacterLocation(); //获取小人的坐标
-		utils->drawCharater(inputImage, characterBottomCenter); //在小人的坐标出打点
+		utils->drawPoint(inputImage, characterBottomCenter); //在小人的坐标出打点
 		utils->findTopPoint(inputImage, topPosition, characterLocation); //获取目标顶点坐标
 		utils->findAnotherPoint(inputImage, anotherPoint, characterBottomCenter,topPosition ); //获取下一目标位置的另一个边缘坐标
+		nextCenterPoint = Point(topPosition.x, anotherPoint.y); //下一个目标位置点
 
 		qDebug() << "characterBottomCenter: x =" << characterBottomCenter.x << " y=" << characterBottomCenter.y;
 		qDebug() << "nextCenterPoint: x =" << nextCenterPoint.x << " y=" << nextCenterPoint.y;
-
-		nextCenterPoint = Point(topPosition.x, anotherPoint.y);
-		utils->drawCharater(inputImage, nextCenterPoint);
+		utils->drawPoint(inputImage, nextCenterPoint);
 		isLeftDst = utils->isLeftDst(characterBottomCenter.x, topPosition.x);
 		utils->displayResult(imageLabel, inputImage);
 

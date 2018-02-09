@@ -25,7 +25,7 @@ void Utils::cut(Mat &inputImage, Mat &outputImage, Range  &startRange, Range end
 }
 
 
-void Utils::drawCharater(Mat &inputImage, Point point, Scalar color) {
+void Utils::drawPoint(Mat &inputImage, Point point, Scalar color) {
 	//画圆形
 	circle(inputImage, point, 2, color, 2, LINE_AA);
 }
@@ -48,16 +48,16 @@ void Utils::longClick(int time) {
 void Utils::edge(Mat inputImage, Mat &outputImage) {
 	Mat temp;
 	
-	cvtColor(inputImage, temp, CV_BGR2HSV_FULL);
+	cvtColor(inputImage, temp, CV_BGR2HSV);
 	for (int row = 0; row < temp.rows; row++) {
 		for (int col = 0; col < temp.cols; col++) {
-			int h = temp.at<Vec3b>(row, col)[0];
+			int h = temp.at<Vec3b>(row, col)[0] << 1;
 			int s = temp.at<Vec3b>(row, col)[1];
 			int v = temp.at<Vec3b>(row, col)[2];
 
 			if ( h >= 36 && h <= 240) {
 				if (10 <= s && s <= 127) {
-					if ( (232 <= v && v <= 255) || 165 <= v && v <= 178) {
+					if ( (232 <= v && v <= 255) || (165 <= v && v <= 179)) {
 						temp.at<Vec3b>(row, col)[0] = 0;
 						temp.at<Vec3b>(row, col)[1] = 0;
 						temp.at<Vec3b>(row, col)[2] = 0;
@@ -66,12 +66,11 @@ void Utils::edge(Mat inputImage, Mat &outputImage) {
 			}
 		}
 	}
+
 	Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 	morphologyEx(temp, temp, CV_MOP_OPEN, kernel);
-
 	medianBlur(temp, temp, 5);
 	Canny(temp, outputImage, 58, 50);
-
 }
 
 //判断目标位置是否在左边
@@ -85,7 +84,6 @@ void Utils::findTopPoint(Mat &inputImage, Point &potion, Rect subtracArea, uchar
 	Mat temp;
 	edge(inputImage, temp);
 
-	qDebug() << subtracArea.br().x << " -------------- " << temp.cols;
 	for (unsigned int row = temp.rows * 0.25; row < subtracArea.br().y; row++) {
 		//subtracArea.tl().x 为小人的左上方的x坐标   subtracArea.br().x
 		for (unsigned int col = 10; col < temp.cols - 10;) {
@@ -94,7 +92,8 @@ void Utils::findTopPoint(Mat &inputImage, Point &potion, Rect subtracArea, uchar
 			if (pix > minThreshold) {
 				potion.x = col;
 				potion.y = row;
-				
+				qDebug() << "next_dst_in_top=" << potion.x << "--" << potion.y;
+				drawPoint(inputImage, potion, Scalar(255, 0, 0));
 				return;
 			}
 
@@ -116,7 +115,7 @@ void Utils::findAnotherPoint(Mat &inputImage, Point &potion, Point characterBott
 	if (isLeftDst(characterBottomCenter.x, dstTopPoint.x)) { //如果下一目标位值在小人左边
 
 		//取2是因为最左边的点不可能小于2，提高效率
-		for (int col = 2; col < dstTopPoint.x; col++) { //只需遍历10 到最高点的x点坐标范围内
+		for (int col = 2; col < dstTopPoint.x - 5; col++) { //只需遍历10 到最高点的x点坐标范围内
 
 			for (int row = dstTopPoint.y + 5; row < characterBottomCenter.y - 5; row++) { //只需遍历 最高点的y坐标到 小人的最低坐标
 
@@ -124,6 +123,8 @@ void Utils::findAnotherPoint(Mat &inputImage, Point &potion, Point characterBott
 				if (pix > minThreshold) {
 					potion.x = col;
 					potion.y = row;
+					qDebug() << "next_dst_in_left=" << potion.x << "--" << potion.y;
+					drawPoint(inputImage, potion, Scalar(255, 0, 0));
 					return;
 				}
 			}
@@ -140,7 +141,7 @@ void Utils::findAnotherPoint(Mat &inputImage, Point &potion, Point characterBott
 					potion.x = col;
 					potion.y = row;
 					qDebug() << "next_dst_in_right=" << potion.x << "--" << potion.y;
-					drawCharater(inputImage, potion, Scalar(0, 255, 0));
+					drawPoint(inputImage, potion, Scalar(255, 0, 0));
 					return;
 				}
 			}

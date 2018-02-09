@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>WxJump</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../../Desktop/timg.jpg</normaloff>../../../../Desktop/timg.jpg</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout_2">

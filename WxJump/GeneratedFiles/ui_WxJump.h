@@ -38,6 +38,9 @@ public:
         if (WxJumpClass->objectName().isEmpty())
             WxJumpClass->setObjectName(QStringLiteral("WxJumpClass"));
         WxJumpClass->resize(665, 539);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../../../../Desktop/timg.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+        WxJumpClass->setWindowIcon(icon);
         verticalLayout = new QVBoxLayout(WxJumpClass);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
