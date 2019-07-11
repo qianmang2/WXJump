@@ -26,15 +26,3 @@ adb模拟按压命令:   `adb shell input swipe 200 300 400 500 2000`  (200：�
 ## 效果图：
 ![外挂客户端截图](https://github.com/qianmang2/WXJump/raw/master/image/clientImage.png "电脑端辅助截图")
 ![手机端截图](https://github.com/qianmang2/WXJump/raw/master/image/screencap.png "手机端游戏截图")
-
-```mermaid
-flowchat
-st=>start: 开始
-e=>end: 结束
-op=>operation: 我的操作
-cond=>condition: 确认？
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
