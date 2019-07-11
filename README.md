@@ -26,13 +26,3 @@ adb模拟按压命令:   `adb shell input swipe 200 300 400 500 2000`  (200：�
 ## 效果图：
 ![外挂客户端截图](https://github.com/qianmang2/WXJump/raw/master/image/clientImage.png "电脑端辅助截图")
 ![手机端截图](https://github.com/qianmang2/WXJump/raw/master/image/screencap.png "手机端游戏截图")
-
-```sql
-CREATE TABLE `data_persistence`(
-`id` INTEGER PRIMARY KEY AUTOINCREMENT COMMENT '主键id',
-`url` TEXT COMMENT '平台的url',
-`platform_code` TEXT COMMENT '平台的code'
-`is_delete` INTEGER COMMENT '是否删除 0：否 1：是', 
-`json` TEXT COMMENT '平台的网络请求的json数据',
-`lang` TEXT  COMMENT '平台的语言类型,中文：zh_cn  英文：en')
-```
